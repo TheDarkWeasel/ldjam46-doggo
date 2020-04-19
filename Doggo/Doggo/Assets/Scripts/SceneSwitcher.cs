@@ -33,7 +33,7 @@ public class SceneSwitcher : MonoBehaviour
 
     private IEnumerator LoadNextScene()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
