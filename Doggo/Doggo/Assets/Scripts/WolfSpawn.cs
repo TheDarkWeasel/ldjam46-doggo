@@ -14,9 +14,12 @@ public class WolfSpawn : MonoBehaviour
 
     private WolfSpawn[] wolfSpawns;
 
+    private AudioSource audioSource;
+
     private void Start()
     {
         wolfSpawns = FindObjectsOfType<WolfSpawn>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -31,6 +34,7 @@ public class WolfSpawn : MonoBehaviour
 
             Vector3 spawn = wolfSpawns[Random.Range(0, wolfSpawns.Length)].gameObject.transform.position;
             instantiatedObject.transform.position = spawn;
+            audioSource.Play();
         }
     }
 }
