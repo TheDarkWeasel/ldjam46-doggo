@@ -8,6 +8,9 @@ public class WolfSpawn : MonoBehaviour
     private float millisTillSpawn = 3000;
 
     [SerializeField]
+    private float offset = 0;
+
+    [SerializeField]
     private GameObject enemyPrefab = null;
 
     private float accumulatedDelta = 0;
@@ -27,7 +30,7 @@ public class WolfSpawn : MonoBehaviour
         float timeChangeInMillis = Time.deltaTime * 1000;
         accumulatedDelta += timeChangeInMillis;
 
-        if (accumulatedDelta > millisTillSpawn)
+        if (accumulatedDelta > millisTillSpawn + offset)
         {
             accumulatedDelta = 0;
             GameObject instantiatedObject = Instantiate(enemyPrefab);

@@ -11,7 +11,7 @@ public class SheepController : MonoBehaviour
     private bool isDead = false;
     private float unitSize;
 
-    private ParticleSystem particleSystem;
+    private ParticleSystem sheepParticleSystem;
     private AudioSource audioSource;
 
     private Gamestate gamestate;
@@ -23,7 +23,7 @@ public class SheepController : MonoBehaviour
         navMeshAgent.updateUpAxis = false;
         sheepAnimator = GetComponentInChildren<Animator>();
         unitSize = GetComponent<Collider>().bounds.size.x;
-        particleSystem = GetComponent<ParticleSystem>();
+        sheepParticleSystem = GetComponent<ParticleSystem>();
         audioSource = GetComponent<AudioSource>();
 
         gamestate = GameObject.Find("Gamestate").GetComponent<Gamestate>();
@@ -109,7 +109,7 @@ public class SheepController : MonoBehaviour
         gamestate.OnSheepKilled();
 
         StopRunningAnimation();
-        particleSystem.Play();
+        sheepParticleSystem.Play();
         audioSource.Play();
 
         Destroy(GetComponent<Rigidbody>());
