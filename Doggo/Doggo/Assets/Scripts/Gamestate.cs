@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Gamestate : MonoBehaviour
 {
-    // Start is called before the first frame update
+    int sheepCount = 0;
+
     void Start()
     {
-        
+        sheepCount = FindObjectsOfType<SheepController>().Length;
+        Debug.Log(sheepCount + " sheep found!");
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -18,7 +19,6 @@ public class Gamestate : MonoBehaviour
 
     public bool IsGameOver()
     {
-        //TODO
-        return false;
+        return sheepCount <= 0;
     }
 }

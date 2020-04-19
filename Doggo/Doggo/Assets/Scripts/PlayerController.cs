@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour
         doggoAnimator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!gamestate.IsGameOver())
@@ -69,7 +68,7 @@ public class PlayerController : MonoBehaviour
             }
 
 
-            if (!Input.anyKey)
+            if (!Input.anyKey || keysPressed == 0)
             {
                 StopRunningAnimation();
             } else
