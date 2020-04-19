@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class SheepController : MonoBehaviour
@@ -10,8 +8,13 @@ public class SheepController : MonoBehaviour
     private Vector3 destination = Vector3.zero;
 
     private float speed = 0.5f;
-
+    private bool isDead = false;
     private float unitSize;
+
+    private ParticleSystem particleSystem;
+    private AudioSource audioSource;
+
+    private Gamestate gamestate;
 
     // Start is called before the first frame update
     void Start()
@@ -20,11 +23,19 @@ public class SheepController : MonoBehaviour
         navMeshAgent.updateUpAxis = false;
         sheepAnimator = GetComponentInChildren<Animator>();
         unitSize = GetComponent<Collider>().bounds.size.x;
+        particleSystem = GetComponent<ParticleSystem>();
+        audioSource = GetComponent<AudioSource>();
+
+        gamestate = GameObject.Find("Gamestate").GetComponent<Gamestate>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(IsDead())
+        {
+            return;
+        }
         //Map bounds
         int minX = -5;
         int minZ = -9;
@@ -92,9 +103,24 @@ public class SheepController : MonoBehaviour
         sheepAnimator.ResetTrigger("Run");
     }
 
+    public void KillSheep()
+    {
+        isDead = true;
+        gamestate.OnSheepKilled();
+
+        StopRunningAnimation();
+        particleSystem.Play();
+        audioSource.Play();
+
+        Destroy(GetComponent<Rigidbody>());
+        Destroy(GetComponent<Collider>());
+
+        Destroy(gameObject, 2f);
+    }
+
     public bool IsDead()
     {
-        return false;
+        return isDead;
     }
 
     public Vector3 GetPosition()

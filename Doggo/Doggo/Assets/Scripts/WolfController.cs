@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class WolfController : MonoBehaviour
@@ -30,6 +28,11 @@ public class WolfController : MonoBehaviour
         if(target == null || target.IsDead())
         {
             SheepController[] sheep = FindObjectsOfType<SheepController>();
+            if(sheep.Length == 0)
+            {
+                StopRunningAnimation();
+                return;
+            }
             target = sheep[Random.Range(0, sheep.Length)];
         }
 
@@ -73,6 +76,11 @@ public class WolfController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        SheepController sheepController = collision.gameObject.GetComponent<SheepController>();
+        if (sheepController != null && !sheepController.IsDead())
+        {
+            sheepController.KillSheep();
+        }
         
     }
 
