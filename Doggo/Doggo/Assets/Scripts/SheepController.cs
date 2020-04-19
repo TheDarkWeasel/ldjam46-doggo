@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-public class SheepController : MonoBehaviour
+public class SheepController : BarkTarget
 {
     private Animator sheepAnimator;
     private NavMeshAgent navMeshAgent;
@@ -125,6 +125,12 @@ public class SheepController : MonoBehaviour
 
     public Vector3 GetPosition()
     {
-        return gameObject.transform.position;
+        return transform.position;
+    }
+
+    public override void OnBark()
+    {
+        Debug.Log("Sheep: Bark received!");
+        destination = GameObject.Find("MapCenter").transform.position;
     }
 }

@@ -26,7 +26,7 @@ public class Gamestate : MonoBehaviour
             sheepLeft.text = "Sheep left: " + sheepCount;
 
             timer += Time.deltaTime;
-            int seconds = (int)(timer % 60);
+            int seconds = (int)timer;
             TimeSpan timeSpan = TimeSpan.FromSeconds(seconds);
             string timeText = string.Format("{0:D2}:{1:D2}:{2:D2}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
 

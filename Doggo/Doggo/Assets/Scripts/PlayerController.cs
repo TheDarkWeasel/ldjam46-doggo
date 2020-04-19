@@ -9,14 +9,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float speed = 0.1f;
 
+    [SerializeField]
+    private float barkDistance = 2;
+
     private Gamestate gamestate;
 
     private Animator doggoAnimator;
+
+    private AudioSource audioSource;
 
     void Start()
     {
         gamestate = GameObject.Find("Gamestate").GetComponent<Gamestate>();
         doggoAnimator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -59,6 +65,10 @@ public class PlayerController : MonoBehaviour
                 keysPressed++;
                 rotation += 270;
             }
+            if(Input.GetKey(KeyCode.Space))
+            {
+                Bark();
+            }
 
             //Hotfix, because I'm too lazy to think now ;)
             if(aPressed && sPressed)
@@ -88,6 +98,27 @@ public class PlayerController : MonoBehaviour
         {
             Application.Quit();
         }
+    }
+
+    private void Bark()
+    {
+        List<BarkTarget> possibleBarkTargets = new List<BarkTarget>();
+        possibleBarkTargets.AddRange(FindObjectsOfType<WolfController>());
+        possibleBarkTargets.AddRange(FindObjectsOfType<SheepController>());
+
+        Debug.Log("Found barktargets! " + possibleBarkTargets.Count);
+
+        foreach(BarkTarget target in possibleBarkTargets)
+        {
+            Vector3 diffToPlayer = target.gameObject.transform.position - gameObject.transform.position;
+            if (diffToPlayer.sqrMagnitude < barkDistance * barkDistance)
+            {
+                Debug.Log("Magnitude2: " + diffToPlayer.sqrMagnitude);
+                target.OnBark();
+            }
+        }
+
+        audioSource.Play();
     }
 
     private void PlayRunningAnimation()
